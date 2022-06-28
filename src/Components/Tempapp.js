@@ -4,34 +4,46 @@ import "./css/style.css";
 const Tempapp = () => {
     const [city, setCity] = useState(null);
     const [search, setSearch] = useState("Dehradun");
+    const [searchHistory, setSearchHistory] = useState([]);
 
     useEffect ( () => {
         const fetchApi = async () => {
             const url = `https://api.openweathermap.org/data/2.5/weather?q=${search}&units=metric&appid=7938d9005e68d8b258a109c716436c91`
-            const response = await fetch(url);
+            const response = await fetch(url);  
             const resJson = await response.json();
             setCity(resJson.main);
         };
         fetchApi();
 
-    },[search] )
+       },[search] )
+
+        const handleClick = event => {
+        event.preventDefault();
+        searchHistory.push(search)
+        };
 
 return(
         <>
             <div className="box">
                 <div className="inputData">
                 <input
+                id="btnc"
                 type="search" 
                 value={search}
                 className="inputFeild" 
-                onChange={ (event) => { setSearch(event.target.value) } } />
-                </div>
+                onChange={ (event) => { setSearch(event.target.value) }}
+               />
+               <button onClick={handleClick}>Click</button>
+              </div>
              <input className="is"></input>
-              
-           {!city ? (
+             {searchHistory.map((user) => (
+            <h2 className="tempmin_max">{user}</h2>
+            ))}
+            {!city ? (
             <p className="errorMsg">Enter City Name</p>
            ) : (
             <div>
+               
                 <div className="info">
                 <h2 className="location">
                 <i className="fa-solid fa-street-view"> </i>{search}
@@ -48,8 +60,6 @@ return(
                 <div className="wave -three"></div>
             </div>
             ) }
-
-            
             </div>
         </>
     ) 
