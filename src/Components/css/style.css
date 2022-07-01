@@ -227,3 +227,7 @@ body > span {
 .is{
     visibility: hidden;
 }
+
+.historyinput{
+    display:none;
+}
